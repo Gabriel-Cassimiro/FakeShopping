@@ -3,11 +3,11 @@ import { Action, Products } from "../actions/actionsInterface"
 
 //State which we use with useSelector
 
-interface initialStateI {
+export interface initialStateI {
   products: Products[]
 }
 
-const initialState = {
+const initialState: initialStateI = {
   products: [
     {
       id: 0,
@@ -23,8 +23,8 @@ const initialState = {
 export const productReducer = (state: initialStateI = initialState, action: Action): initialStateI => {
   //Deconstruct action to {type, payload}
   switch (action.type) {
-    case ActionsTypes.SELECTED_PRODUCT:
-      return { ...state }
+    case ActionsTypes.SET_PRODUCT:
+      return { ...state, products: [action.payload] }
     default:
       return state
   }

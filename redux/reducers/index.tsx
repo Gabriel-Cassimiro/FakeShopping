@@ -1,8 +1,8 @@
 import { combineReducers } from "redux"
 import { productReducer } from "./productsReducer"
 
+//Reducers is the state we use with useSelector
 const reducers = combineReducers({
-  //Reducers is the state we use with useSelector
   allProducts: productReducer
 })
 

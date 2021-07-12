@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <main>
         <Header />
-        <ProductComponent />
         <Component {...pageProps} />{" "}
       </main>
     </Provider>
