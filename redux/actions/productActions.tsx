@@ -2,20 +2,20 @@ import { ActionsTypes } from "./actions-types"
 import { Action, Products } from "./actionsInterface"
 import { Dispatch } from "redux"
 
-export function setProducts(product: Products) {
+export function setProducts(products: Products[]) {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionsTypes.SET_PRODUCT,
-      payload: product
+      payload: products
     })
   }
 }
 
-export function selectedProducts(products: Products) {
+export function selectedProducts(product: Products) {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionsTypes.SELECTED_PRODUCT,
-      payload: products
+      payload: product
     })
   }
 }

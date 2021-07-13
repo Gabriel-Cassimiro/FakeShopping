@@ -7,24 +7,16 @@ export interface initialStateI {
   products: Products[]
 }
 
-const initialState: initialStateI = {
-  products: [
-    {
-      id: 0,
-      title: "",
-      price: 0,
-      description: "",
-      category: "",
-      image: ""
-    }
-  ]
+const initialState = {
+  products: []
 }
 //Remember to declare state types as state: Products = initialState
-export const productReducer = (state: initialStateI = initialState, action: Action): initialStateI => {
+export const productReducer = (state = initialState, action: Action): initialStateI => {
   //Deconstruct action to {type, payload}
+  //console.log(action)
   switch (action.type) {
     case ActionsTypes.SET_PRODUCT:
-      return { ...state, products: [action.payload] }
+      return { ...state, products: action.payload }
     default:
       return state
   }

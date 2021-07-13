@@ -11,7 +11,7 @@ export interface Products {
 
 interface setProducts {
   type: ActionsTypes.SET_PRODUCT
-  payload: Products
+  payload: Products[]
 }
 
 interface selectedProducts {

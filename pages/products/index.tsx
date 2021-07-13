@@ -15,21 +15,19 @@ function ProductsListing() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get<Products>("https://fakestoreapi.com/products")
+        const response = await axios.get<Products[]>("https://fakestoreapi.com/products")
         dispatch(setProducts(response.data))
-        console.log(products)
       } catch (e) {
-        console.log("There was a erro fetching the products", e)
+        console.log("There was a erro fetching the products")
       }
     }
     fetchProducts()
   }, [])
 
+  //console.log("Products :", products)
   return (
     <div>
-      <h1>
-        <ProductComponent />
-      </h1>
+      <ProductComponent />
     </div>
   )
 }
