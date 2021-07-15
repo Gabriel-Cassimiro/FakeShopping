@@ -11,7 +11,7 @@ const initialState = {
   products: []
 }
 //Remember to declare state types as state: Products = initialState
-export const productReducer = (state = initialState, action: Action): initialStateI => {
+export const productReducer = (state: initialStateI = initialState, action: Action): initialStateI => {
   //Deconstruct action to {type, payload}
   //console.log(action)
   switch (action.type) {
