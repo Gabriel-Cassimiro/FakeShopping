@@ -1,9 +1,10 @@
 import { combineReducers } from "redux"
-import { productReducer } from "./productsReducer"
+import { productReducer, selectedProductsReducer } from "./productsReducer"
 
 //Reducers is the state we use with useSelector
 const reducers = combineReducers({
-  allProducts: productReducer
+  allProducts: productReducer,
+  selectedProduct: selectedProductsReducer
 })
 
 export default reducers

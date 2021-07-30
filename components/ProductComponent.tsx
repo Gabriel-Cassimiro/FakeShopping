@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 import { useSelector } from "react-redux"
 import { State } from "../redux/reducers/index"
 import Link from "next/link"
@@ -11,11 +12,11 @@ function ProductComponent() {
     <div className="flex flex-wrap">
       {product.map(products => {
         return (
-          <div key={products.id} className="container w-full p-4 lg:w-1/4">
-            <div className="h-full flex flex-col justify-around p-8 bg-white border-2 border-gray rounded-lg shadow-2xl">
+          <div key={products.id} className="CONTAINER w-full p-4 lg:w-1/4">
+            <div className="flex flex-col justify-around p-8 bg-white border-2 border-gray rounded-lg shadow-2xl">
               <Link href={`/products/${products.id}`}>
                 <button className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-                  <img src={products.image} alt={products.title} title={products.category} className="w-full h-48 object-contain border-b-2 p-5" />
+                  <Image src={products.image} alt={products.title} height={900} width={900} title={products.category} className="object-contain border-b-2 p-5" />
                 </button>
               </Link>
               <p className="text-base h-12 overflow-hidden text-left uppercase text-gray-900 font-bold">{products.title}</p>
