@@ -16,6 +16,9 @@ module.exports = {
       gridTemplateRows: {
         layout: " 1fr 0.5fr 0.2fr 2.5fr 0.2fr"
       },
+      gridTemplateColumns: {
+        layout: " 0.2fr 1fr"
+      },
       height: {
         "screen-80": "80vh",
         "screen-50": "50vh",

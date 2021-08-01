@@ -30,7 +30,7 @@ export default function ProductDetails() {
   }, [id])
 
   return (
-    <div>
+    <div className="flex w-full p-4 justify-center">
       {Object.keys(product).length === 0 ? (
         <div className="py-10 flex flex-wrap justify-center ">
           <div className="flex p-2 rounded-lg border-2 border-yellow-300 ">
@@ -39,13 +39,15 @@ export default function ProductDetails() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-areas-layout grid-cols-2 grid-rows-layout">
-          <Image className="grid-in-image" height={100} width={100} objectFit={"contain"} src={product.image} />
-          <div className="grid-in-content1 bg-green-200">{product.title}</div>
-          <div className="grid-in-content2 bg-green-400">$ {product.price}</div>
-          <div className="grid-in-content3 bg-red-300">{product.category}</div>
-          <div className="grid-in-content4 bg-green-600">{product.description}</div>
-          <div className="grid-in-button bg-yellow-300">
+        <div className="PRODUCT grid grid-areas-layout grid-cols-layout grid-rows-layout bg-white border-2 border-gray rounded-lg shadow-2xl">
+          <div className="grid-in-image ">
+            <Image height={500} width={400} src={product.image} />
+          </div>
+          <div className="grid-in-content1 bg-green-200 w-1/2">{product.title}</div>
+          <div className="grid-in-content2 bg-green-400 w-1/2">$ {product.price}</div>
+          <div className="grid-in-content3 bg-red-300 w-1/2">{product.category}</div>
+          <div className="grid-in-content4 bg-green-600 w-1/2">{product.description}</div>
+          <div className="grid-in-button bg-yellow-300 w-1/2">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buy</button>
           </div>
         </div>
