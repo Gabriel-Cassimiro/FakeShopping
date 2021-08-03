@@ -39,48 +39,30 @@ export default function ProductDetails() {
           </div>
         </div>
       ) : (
-        <div className="PRODUCT grid grid-areas-layout grid-cols-layout grid-rows-layout bg-white border-2 border-gray rounded-lg shadow-2xl">
-          <div className="grid-in-image ">
-            <Image height={500} width={400} src={product.image} />
+        <div className="PRODUCT sm:grid grid-cols-2 sm:grid-rows-layout p-4 gap-x-4 sm:w-1/2 space-y-3 bg-gray-100 border-2 border-gray rounded-lg shadow-2xl">
+          <div className="row-span-5">
+            <Image height={350} width={300} className="rounded-lg" layout="responsive" src={product.image} alt={product.title} />
           </div>
-          <div className="grid-in-content1 bg-green-200 w-1/2">{product.title}</div>
-          <div className="grid-in-content2 bg-green-400 w-1/2">$ {product.price}</div>
-          <div className="grid-in-content3 bg-red-300 w-1/2">{product.category}</div>
-          <div className="grid-in-content4 bg-green-600 w-1/2">{product.description}</div>
-          <div className="grid-in-button bg-yellow-300 w-1/2">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buy</button>
-          </div>
+          <div className="text-lg font-semibold ">{product.title}</div>
+          <div className="font-semibold text-xl ">${product.price}</div>
+          <div className="font-light italic  text-center sm:text-left bg-gray-500 text-yellow-400 rounded-md sm:p-2">{product.category}</div>
+          <div>{product.description}</div>
+          <button className="py-1 border-2 transition w-full ease-in duration-200 uppercase rounded-lg hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none">Buy</button>
         </div>
       )}
     </div>
   )
 }
 
-/* export async function getStaticPaths() {
-  const { data } = await axios.get<Products[]>("https://fakestoreapi.com/products")
-  const paths = data.map(product => {
-    return {
-      params: {
-        id: product.id.toString()
-      }
-    }
-  })
-
-  return { paths, fallback: "blocking" }
-  //fallback: 'true' The paths that have not been generated at build time will NOT result in a 404 page.
-  //fallback: 'false'  Any paths not returned by getStaticPaths (paths:[]) will result in a 404 page.
+{
+  /* <div className="PRODUCT sm:grid sm:grid-cols-2  sm:grid-rows-5 p-4 gap-4 space-y-2 sm:w-1/2 bg-gray-100 border-2 border-gray rounded-lg shadow-2xl">
+<div className="sm:row-span-5">
+  <Image height={350} width={300} className="rounded-lg" layout="responsive" src={product.image} alt={product.title} />
+</div>
+<div className=" text-lg font-semibold ">{product.title}</div>
+<div className="font-semibold text-xl">${product.price}</div>
+<div className="font-light italic text-center sm:text-left bg-gray-500 text-yellow-400 rounded-md sm:p-2">{product.category}</div>
+<div>{product.description}</div>
+<button className="py-1 border-2 transition w-full ease-in duration-200 uppercase rounded-lg hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none">Buy</button>
+</div> */
 }
-
-export async function getStaticProps({ params }: Params) {
-  const res = await axios.get<Products>(`https://fakestoreapi.com/products/${params.id}`)
-  const product = res.data
-
-  return {
-    props: {
-      initialReduxState: {
-        product
-      }
-    },
-    revalidate: 60 * 60 * 24 // 24 hours
-  }
-} */
