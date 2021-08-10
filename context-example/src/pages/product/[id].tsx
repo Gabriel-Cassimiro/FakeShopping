@@ -8,7 +8,7 @@ import axios from "axios"
 import { Products } from "../../redux/actions/actionsInterface"
 
 export default function ProductDetails() {
-  const product = useSelector((state: State) => state.selectedProduct)
+  /* const product = useSelector((state: State) => state.selectedProduct)
   const router = useRouter()
   const { id } = router.query
   const dispatch = useDispatch()
@@ -27,7 +27,16 @@ export default function ProductDetails() {
       }
     }
     fetchProduct()
-  }, [id])
+  }, [id]) */
+
+  const product = {
+    id: 1,
+    title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+    price: 109.95,
+    description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+    category: "men's clothing",
+    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+  }
 
   return (
     <div className="flex w-full p-4 justify-center">
@@ -52,17 +61,4 @@ export default function ProductDetails() {
       )}
     </div>
   )
-}
-
-{
-  /* <div className="PRODUCT sm:grid sm:grid-cols-2  sm:grid-rows-5 p-4 gap-4 space-y-2 sm:w-1/2 bg-gray-100 border-2 border-gray rounded-lg shadow-2xl">
-<div className="sm:row-span-5">
-  <Image height={350} width={300} className="rounded-lg" layout="responsive" src={product.image} alt={product.title} />
-</div>
-<div className=" text-lg font-semibold ">{product.title}</div>
-<div className="font-semibold text-xl">${product.price}</div>
-<div className="font-light italic text-center sm:text-left bg-gray-500 text-yellow-400 rounded-md sm:p-2">{product.category}</div>
-<div>{product.description}</div>
-<button className="py-1 border-2 transition w-full ease-in duration-200 uppercase rounded-lg hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none">Buy</button>
-</div> */
 }
