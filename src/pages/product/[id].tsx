@@ -1,43 +1,18 @@
-import React, { useEffect } from "react"
+import React from "react"
+import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image"
-import { useDispatch, useSelector } from "react-redux"
-import { selectedProducts, removeSelectedProduct } from "../../redux/actions/productActions"
-import { State } from "../../redux/reducers/index"
-import { useRouter } from "next/router"
 import axios from "axios"
-import { Products } from "../../redux/actions/actionsInterface"
+import { Product } from "../../context/ProductsContext"
 
-export default function ProductDetails() {
-  /* const product = useSelector((state: State) => state.selectedProduct)
-  const router = useRouter()
-  const { id } = router.query
-  const dispatch = useDispatch()
+type ContextParams = {
+  id: string
+}
 
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        if (id && id !== "") {
-          const response = await axios.get<Products>(`https://fakestoreapi.com/products/${id}`)
-          dispatch(selectedProducts(response.data))
-        } else {
-          dispatch(removeSelectedProduct())
-        }
-      } catch (e) {
-        console.log("There was a erro fetching the product")
-      }
-    }
-    fetchProduct()
-  }, [id]) */
+type ProductProps = {
+  product: Product
+}
 
-  const product = {
-    id: 1,
-    title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-    price: 109.95,
-    description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-    category: "men's clothing",
-    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-  }
-
+export default function ProductDetails({ product }: ProductProps) {
   return (
     <div className="flex w-full p-4 justify-center">
       {Object.keys(product).length === 0 ? (
@@ -61,4 +36,28 @@ export default function ProductDetails() {
       )}
     </div>
   )
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await axios.get<Product[]>("https://fakestoreapi.com/products")
+  const data = response.data
+
+  const paths = data.map(product => {
+    return {
+      params: { id: product.id.toString() } //If params return a number. Convert to string otherwise we get a error
+    }
+  })
+
+  return { paths, fallback: "blocking" }
+  //fallback: 'true' The paths that have not been generated at build time will NOT result in a 404 page.
+  //fallback: 'false'  Any paths not returned by getStaticPaths (paths:[]) will result in a 404 page.
+}
+
+export const getStaticProps: GetStaticProps = async context => {
+  const { id } = context.params as ContextParams
+  const res = await axios.get<Product>(`https://fakestoreapi.com/products/${id}`)
+  const product = res.data
+  return {
+    props: { product }
+  }
 }
