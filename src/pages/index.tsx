@@ -3,14 +3,19 @@ import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import axios from "axios"
-import { Product } from "../context/ProductsContext"
+import useProductsContext, { Product } from "../context/ProductsContext"
 
 type HomeProps = {
-  ProductsData: Product[]
+	ProductsData: Product[]
 }
 
 export default function ProductListing({ ProductsData }: HomeProps) {
-  return (
+	const { addCart } = useProductsContext()
+
+	//console.log(ProductsData)
+
+	// prettier-ignore
+	return (
     <div className="flex flex-wrap h-full py-2">
       {ProductsData.map(products => {
         return (
@@ -24,7 +29,9 @@ export default function ProductListing({ ProductsData }: HomeProps) {
               <p className="text-base h-12 overflow-hidden text-left uppercase text-gray-900 font-bold">{products.title}</p>
               <div className="flex flex-row items-center justify-between py-2">
                 <p className="font-bold text-xl">{products.price}$</p>
-                <button className="px-6 py-2  border-2 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none">Add to cart</button>
+                <button onClick={() => addCart(products)}  className="px-6 py-2  border-2 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none">
+                  Add to cart
+                  </button>
               </div>
             </div>
           </div>
@@ -34,12 +41,14 @@ export default function ProductListing({ ProductsData }: HomeProps) {
   )
 }
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await axios.get<Product[]>("https://fakestoreapi.com/products")
-  const ProductsData = response.data
+	const response = await axios.get<Product[]>(
+		"https://fakestoreapi.com/products"
+	)
+	const ProductsData = response.data
 
-  return {
-    props: { ProductsData } // will be passed to the page component as props
-    //revalidate: 60 * 60 * 7 //one week. Default is false and never revalidate.
-    //An optional amount in seconds after which a page re-generation can occur.
-  }
+	return {
+		props: { ProductsData } // will be passed to the page component as props
+		//revalidate: 60 * 60 * 7 //one week. Default is false and never revalidate.
+		//An optional amount in seconds after which a page re-generation can occur.
+	}
 }
