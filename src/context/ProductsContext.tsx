@@ -1,4 +1,10 @@
-import React, { createContext, useContext, ReactNode, useState } from "react"
+import React, {
+	createContext,
+	useContext,
+	ReactNode,
+	useState,
+	useEffect
+} from "react"
 import { useImmer } from "use-immer"
 
 export interface Product {
@@ -17,7 +23,7 @@ export interface ProductsList {
 	isShowing: boolean
 	isOpen: (isShowing: boolean) => void
 	subtotal: number
-	setTotal: () => void
+	subItems: number
 }
 
 type PlayerContextProviderProps = {
@@ -31,6 +37,7 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 	const [productsCart, setProductsCart] = useImmer<Product[]>([])
 	const [isShowing, setIsShowing] = useState(false)
 	const [subtotal, setSubTotal] = useState(0)
+	const [subItems, setSubItems] = useState(0)
 
 	function isOpen() {
 		setIsShowing(prevCheck => !prevCheck)
@@ -45,11 +52,19 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 
 	function removeCart() {}
 
-	function setTotal() {
-		productsCart.map(n => {
-			setSubTotal(preValue => (preValue += n.price))
-		})
-	}
+	useEffect(() => {
+		async function setTotal() {
+			try {
+				productsCart.map(prod => {
+					setSubTotal(prod.price + subtotal)
+				})
+				setSubItems(productsCart.length)
+			} catch (e) {
+				console.log("There was a problem updating the cart")
+			}
+		}
+		setTotal()
+	}, [productsCart])
 
 	//prettier-ignore
 	return (
@@ -60,7 +75,7 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 				isShowing,
 				isOpen,
 				subtotal,
-				setTotal,
+				subItems,
 				removeCart,
        }}
       >

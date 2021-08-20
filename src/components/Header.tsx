@@ -6,7 +6,7 @@ import Cart from "./Cart"
 import useProductsContext from "../context/ProductsContext"
 
 function Header() {
-	const { isOpen, isShowing } = useProductsContext()
+	const { isOpen, isShowing, subtotal, subItems } = useProductsContext()
 
 	return (
 		<div className="flex justify-center border-b-2 border-fuchsia-600 py-2 text-white bg-gray-800 h-16 mx-auto px-2 sm:px-6 lg:px-8">
@@ -16,13 +16,15 @@ function Header() {
 			<div className="ml-auto w-32">
 				<button
 					onClick={() => isOpen(true)}
-					className="grid place-items-center grid-cols-2 grid-rows-2 uppercase"
+					className="flex items-center uppercase"
 				>
-					<div className="col-span-1 row-span-2 ">
+					<div className="flex mr-3">
 						<FaShoppingCart size={42} />
 					</div>
-					<span>$299</span>
-					<span>1 item</span>
+					<div className="flex flex-col">
+						<span>${subtotal.toFixed(2)}</span>
+						<span>{subItems} items</span>
+					</div>
 				</button>
 				<Transition
 					show={isShowing}

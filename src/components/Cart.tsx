@@ -6,28 +6,8 @@ import Image from "next/image"
 import useProductsContext from "../context/ProductsContext"
 
 export default function Cart() {
-	const {
-		isShowing,
-		isOpen,
-		addCart,
-		removeCart,
-		productsCart,
-		setTotal,
-		subtotal
-	} = useProductsContext()
-
-	useEffect(() => {
-		async function updateCart() {
-			try {
-				setTotal
-				/* setProductsCart(prevState => ({ ...prevState, product }))
-        console.log("Products in car", productsCart) */
-			} catch (e) {
-				console.log("There was a problem updating the cart")
-			}
-		}
-		updateCart()
-	}, [productsCart])
+	const { isShowing, isOpen, addCart, removeCart, productsCart, subtotal } =
+		useProductsContext()
 
 	return (
 		<Transition.Root show={isShowing} as={Fragment}>
@@ -146,7 +126,7 @@ export default function Cart() {
 									<div className="border-t border-gray-200 py-6 px-4 sm:px-6">
 										<div className="flex justify-between text-base font-medium text-gray-900">
 											<p>Subtotal</p>
-											<p>${subtotal}</p>
+											<p>${subtotal.toFixed(2)}</p>
 										</div>
 										<p className="mt-0.5 text-sm text-gray-500">
 											Shipping and taxes calculated at checkout.
