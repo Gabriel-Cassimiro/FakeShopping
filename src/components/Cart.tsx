@@ -94,7 +94,9 @@ export default function Cart() {
 																	</p>
 																</div>
 																<div className="flex-1 flex items-end justify-between text-sm">
-																	<p className="text-gray-500">Quantity 1</p>
+																	<p className="text-gray-500">
+																		Quantity {product.qty}
+																	</p>
 
 																	<div className="flex">
 																		<button
@@ -107,7 +109,7 @@ export default function Cart() {
 																	</div>
 																	<div className="flex">
 																		<button
-																			onClick={removeCart}
+																			onClick={() => removeCart(product)}
 																			type="button"
 																			className="font-medium text-indigo-600 hover:text-indigo-500"
 																		>

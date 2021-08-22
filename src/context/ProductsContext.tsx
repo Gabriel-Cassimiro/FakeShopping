@@ -16,10 +16,14 @@ export interface Product {
 	image: string
 }
 
+export interface Product {
+	qty: number
+}
+
 export interface ProductsList {
 	productsCart: Product[]
 	addCart: (product: Product) => void
-	removeCart: () => void
+	removeCart: (product: Product) => void
 	isShowing: boolean
 	isOpen: (isShowing: boolean) => void
 	subtotal: number
@@ -44,21 +48,56 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 	}
 
 	function addCart(product: Product) {
-		//Receives object and pushe into array
-		setProductsCart(draft => {
-			draft.push(product)
-		})
+		const exist = productsCart.find(cart => cart.id === product.id) as Product
+		if (!product.qty) {
+			product.qty = 1
+			setProductsCart(draft => {
+				draft.push(product)
+			})
+		} else if (exist) {
+			setProductsCart(
+				productsCart.map(cart =>
+					cart.id === product.id ? { ...exist, qty: exist.qty + 1 } : cart
+				)
+			)
+		} else {
+			setProductsCart(draft => {
+				draft.push(product)
+			})
+		}
 	}
 
-	function removeCart() {}
+	function removeCart(product: Product) {
+		const exist = productsCart.find(cart => cart.id === product.id) as Product
+		if (exist.qty === 1) {
+			setProductsCart(productsCart.filter(x => x.id !== product.id))
+			setSubTotal(0)
+		} else {
+			productsCart.map(prod => {
+				const totalProduct = prod.price * prod.qty
+				setSubTotal(prev => prev - totalProduct)
+			})
+			setProductsCart(
+				productsCart.map(prodCart =>
+					prodCart.id === product.id
+						? { ...exist, qty: exist.qty - 1 }
+						: prodCart
+				)
+			)
+		}
+	}
 
 	useEffect(() => {
 		async function setTotal() {
 			try {
-				productsCart.map(prod => {
-					setSubTotal(prod.price + subtotal)
-				})
-				setSubItems(productsCart.length)
+				setSubItems(productsCart.reduce((acc, obj) => acc + obj.qty, 0))
+				setSubTotal(
+					productsCart.reduce((acc, obj) => acc + obj.price * obj.qty, 0)
+				)
+				/* productsCart.map(prod => {
+					const totalProduct = prod.price * prod.qty
+					setSubTotal(totalProduct)
+				}) */
 			} catch (e) {
 				console.log("There was a problem updating the cart")
 			}
