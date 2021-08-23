@@ -1,13 +1,8 @@
-## Preview
+## [Preview the project working](https://fake-shopping.vercel.app/)
 
-Preview the example live on [![Vercel](https://vercel.com/button)](https://fake-shopping.vercel.app/)
+# a simple e-commerce site using [FakeStore api](https://fakestoreapi.com/)
 
-# This project is available to view at:
-https://fake-shopping.vercel.app/
-
-# a simple e-commerce site using FakeStore api
-
-This is a personal project using Next.js, TypeScript, context, tailwindcss. Everything in this project was made by myself and several hours on google.
+This is a personal project using Next.js, TypeScript, Context api, tailwindcss. Everything in this project was made by myself and several hours on google.
 
 # Next.js + Tailwind CSS Example
 
