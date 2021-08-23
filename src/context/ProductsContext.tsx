@@ -1,10 +1,4 @@
-import React, {
-	createContext,
-	useContext,
-	ReactNode,
-	useState,
-	useEffect
-} from "react"
+import React, { createContext, useContext, ReactNode, useState, useEffect } from "react"
 import { useImmer } from "use-immer"
 
 export interface Product {
@@ -56,9 +50,7 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 			})
 		} else if (exist) {
 			setProductsCart(
-				productsCart.map(cart =>
-					cart.id === product.id ? { ...exist, qty: exist.qty + 1 } : cart
-				)
+				productsCart.map(cart => (cart.id === product.id ? { ...exist, qty: exist.qty + 1 } : cart))
 			)
 		} else {
 			setProductsCart(draft => {
@@ -68,20 +60,17 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 	}
 
 	function removeCart(product: Product) {
+		//The find() method returns the value of the first element in the provided array that satisfies the provided testing function.
 		const exist = productsCart.find(cart => cart.id === product.id) as Product
 		if (exist.qty === 1) {
+			//The filter() method creates a new array with all elements that pass the test implemented by the provided function.
 			setProductsCart(productsCart.filter(x => x.id !== product.id))
 			setSubTotal(0)
 		} else {
-			productsCart.map(prod => {
-				const totalProduct = prod.price * prod.qty
-				setSubTotal(prev => prev - totalProduct)
-			})
+			setSubTotal(productsCart.reduce((acc, obj) => acc - obj.price * obj.qty, 0))
 			setProductsCart(
 				productsCart.map(prodCart =>
-					prodCart.id === product.id
-						? { ...exist, qty: exist.qty - 1 }
-						: prodCart
+					prodCart.id === product.id ? { ...product, qty: product.qty - 1 } : prodCart
 				)
 			)
 		}
@@ -90,14 +79,11 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 	useEffect(() => {
 		async function setTotal() {
 			try {
+				/* 	reduce() returns the sum of all the elements in an array.The reducer walks through the array element-by-element, 
+				at each step adding the current array value to the result from the previous step 
+				(this result is the running sum of all the previous steps) — until there are no more elements to add.*/
 				setSubItems(productsCart.reduce((acc, obj) => acc + obj.qty, 0))
-				setSubTotal(
-					productsCart.reduce((acc, obj) => acc + obj.price * obj.qty, 0)
-				)
-				/* productsCart.map(prod => {
-					const totalProduct = prod.price * prod.qty
-					setSubTotal(totalProduct)
-				}) */
+				setSubTotal(productsCart.reduce((acc, obj) => acc + obj.price * obj.qty, 0))
 			} catch (e) {
 				console.log("There was a problem updating the cart")
 			}
@@ -105,22 +91,21 @@ export function ProductsProvider({ children }: PlayerContextProviderProps) {
 		setTotal()
 	}, [productsCart])
 
-	//prettier-ignore
 	return (
-    <ProductsContext.Provider 
-      value={{ 
-        productsCart,
-        addCart,
+		<ProductsContext.Provider
+			value={{
+				productsCart,
+				addCart,
 				isShowing,
 				isOpen,
 				subtotal,
 				subItems,
-				removeCart,
-       }}
-      >
-      {children}
-    </ProductsContext.Provider>
-  )
+				removeCart
+			}}
+		>
+			{children}
+		</ProductsContext.Provider>
+	)
 }
 
 export default function useProductsContext() {

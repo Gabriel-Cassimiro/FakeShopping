@@ -2,7 +2,7 @@ import React from "react"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image"
 import axios from "axios"
-import { Product } from "../../context/ProductsContext"
+import ProductsProvider, { Product } from "../../context/ProductsContext"
 
 type ContextParams = {
 	id: string
@@ -13,8 +13,9 @@ type ProductProps = {
 }
 
 export default function ProductDetails({ product }: ProductProps) {
+	const { addCart } = ProductsProvider()
 	return (
-		<div className="sm:flex p-4 justify-center">
+		<div className="flex p-4 justify-center">
 			{Object.keys(product).length === 0 ? (
 				<div className="py-10 flex flex-wrap justify-center ">
 					<div className="flex p-2 rounded-lg border-2 border-yellow-300 ">
@@ -23,7 +24,7 @@ export default function ProductDetails({ product }: ProductProps) {
 					</div>
 				</div>
 			) : (
-				<div className="PRODUCT flex  flex-col 2xl:flex-row p-4 sm:w-1/2 space-y-3 bg-gray-100 border-2 border-gray rounded-lg shadow-2xl">
+				<div className="PRODUCT flex  flex-col 2xl:flex-row p-4 space-y-3 sm:w-1/2 bg-gray-100 border-2 border-gray rounded-lg shadow-2xl">
 					<div className="flex flex-shrink-0  justify-center">
 						<Image
 							height={350}
@@ -41,7 +42,10 @@ export default function ProductDetails({ product }: ProductProps) {
 							{product.category}
 						</div>
 						<div>{product.description}</div>
-						<button className="py-1 border-2 mt-2 transition w-full ease-in duration-200 uppercase rounded-lg hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none">
+						<button
+							onClick={() => addCart(product)}
+							className="py-1 border-2 mt-2 transition w-full ease-in duration-200 uppercase rounded-lg hover:bg-gray-800 hover:text-white border-gray-900 focus:outline-none"
+						>
 							Buy
 						</button>
 					</div>
@@ -52,9 +56,7 @@ export default function ProductDetails({ product }: ProductProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const response = await axios.get<Product[]>(
-		"https://fakestoreapi.com/products"
-	)
+	const response = await axios.get<Product[]>("https://fakestoreapi.com/products")
 	const data = response.data
 
 	const paths = data.map(product => {
@@ -70,9 +72,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async context => {
 	const { id } = context.params as ContextParams
-	const res = await axios.get<Product>(
-		`https://fakestoreapi.com/products/${id}`
-	)
+	const res = await axios.get<Product>(`https://fakestoreapi.com/products/${id}`)
 	const product = res.data
 	return {
 		props: { product }
