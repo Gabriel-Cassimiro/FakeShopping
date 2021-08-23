@@ -6,8 +6,7 @@ import Image from "next/image"
 import useProductsContext from "../context/ProductsContext"
 
 export default function Cart() {
-	const { isShowing, isOpen, addCart, removeCart, productsCart, subtotal } =
-		useProductsContext()
+	const { isShowing, isOpen, addCart, removeCart, productsCart, subtotal } = useProductsContext()
 
 	return (
 		<Transition.Root show={isShowing} as={Fragment}>
@@ -41,7 +40,12 @@ export default function Cart() {
 							leaveTo="translate-x-full"
 						>
 							<div className="w-screen max-w-md">
-								<div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+								<div
+									className={
+										"flex flex-col bg-white shadow-xl overflow-y-scroll " +
+										(productsCart.length <= 0 ? "" : "h-full")
+									}
+								>
 									<div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
 										<div className="flex items-start justify-between">
 											<Dialog.Title className="text-lg font-medium text-gray-900">
@@ -53,22 +57,16 @@ export default function Cart() {
 													onClick={() => isOpen(false)}
 												>
 													<span className="sr-only">Close panel</span>
-													<GrClose
-														className="h-6 w-6 opacity-50"
-														aria-hidden="true"
-													/>
+													<GrClose className="h-6 w-6 opacity-50" aria-hidden="true" />
 												</button>
 											</div>
 										</div>
 
 										<div className="mt-8">
 											<div className="flow-root">
-												<ul
-													role="list"
-													className="-my-6 divide-y divide-gray-200"
-												>
+												<ul role="list" className="-my-6 divide-y divide-gray-200">
 													{productsCart.map(product => (
-														<li key={product.id} className="py-6 flex">
+														<li key={product.id} className="py-6 flex-shrink sm:flex">
 															<div className="flex-shrink-0 w-24 h-24  border border-gray-200 rounded-md overflow-hidden">
 																<Image
 																	src={product.image}
@@ -83,9 +81,7 @@ export default function Cart() {
 																<div>
 																	<div className="flex justify-between text-base font-medium text-gray-900">
 																		<h3>
-																			<Link href={`/produc/${product.id}`}>
-																				{product.title}
-																			</Link>
+																			<Link href={`/produc/${product.id}`}>{product.title}</Link>
 																		</h3>
 																		<p className="ml-4">{product.price}</p>
 																	</div>
@@ -94,7 +90,7 @@ export default function Cart() {
 																	</p>
 																</div>
 																<div className="flex-1 flex items-end justify-between text-sm">
-																	<p className="text-gray-500">Quantity 1</p>
+																	<p className="text-gray-500">Quantity {product.qty}</p>
 
 																	<div className="flex">
 																		<button
@@ -107,7 +103,7 @@ export default function Cart() {
 																	</div>
 																	<div className="flex">
 																		<button
-																			onClick={removeCart}
+																			onClick={() => removeCart(product)}
 																			type="button"
 																			className="font-medium text-indigo-600 hover:text-indigo-500"
 																		>

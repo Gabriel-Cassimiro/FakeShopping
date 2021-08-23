@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { FaShoppingCart } from "react-icons/fa"
+import { AiOutlineMenu } from "react-icons/ai"
 import { Transition } from "@headlessui/react"
 import Cart from "./Cart"
 import useProductsContext from "../context/ProductsContext"
@@ -9,19 +10,19 @@ function Header() {
 	const { isOpen, isShowing, subtotal, subItems } = useProductsContext()
 
 	return (
-		<div className="flex justify-center border-b-2 border-fuchsia-600 py-2 text-white bg-gray-800 h-16 mx-auto px-2 sm:px-6 lg:px-8">
-			<h1 className=" flex absolute mt-4 text-2xl underline ">
+		<div className="flex sm:justify-center items-end justify-between border-b-2 border-fuchsia-600 py-2 text-white bg-gray-800 h-16 mx-auto px-2">
+			<h1 className="underline flex sm:absolute mt-4 text-2xl">
 				<Link href="/">FakeShop</Link>
 			</h1>
-			<div className="ml-auto w-32">
-				<button
-					onClick={() => isOpen(true)}
-					className="flex items-center uppercase"
-				>
-					<div className="flex mr-3">
+			<div className="sm:ml-auto sm:w-32">
+				<button onClick={() => isOpen(true)} className="flex items-center uppercase">
+					<div className="hidden sm:flex mr-3">
 						<FaShoppingCart size={42} />
 					</div>
-					<div className="flex flex-col">
+					<div className="sm:hidden flex mr-3">
+						<AiOutlineMenu size={42} />
+					</div>
+					<div className="hidden sm:flex sm:flex-col">
 						<span>${subtotal.toFixed(2)}</span>
 						<span>{subItems} items</span>
 					</div>
