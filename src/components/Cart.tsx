@@ -40,7 +40,12 @@ export default function Cart() {
 							leaveTo="translate-x-full"
 						>
 							<div className="w-screen max-w-md">
-								<div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+								<div
+									className={
+										"flex flex-col bg-white shadow-xl overflow-y-scroll " +
+										(productsCart.length <= 0 ? "" : "h-full")
+									}
+								>
 									<div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
 										<div className="flex items-start justify-between">
 											<Dialog.Title className="text-lg font-medium text-gray-900">
@@ -61,7 +66,7 @@ export default function Cart() {
 											<div className="flow-root">
 												<ul role="list" className="-my-6 divide-y divide-gray-200">
 													{productsCart.map(product => (
-														<li key={product.id} className="py-6 flex">
+														<li key={product.id} className="py-6 flex-shrink sm:flex">
 															<div className="flex-shrink-0 w-24 h-24  border border-gray-200 rounded-md overflow-hidden">
 																<Image
 																	src={product.image}
